@@ -16,6 +16,7 @@ signal = np.fromstring(signal, "Int16")
 # plt.plot(signal)
 # plt.show()
 
+# code
 test_list = list(signal)
 
 local_maxima = []
