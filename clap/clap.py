@@ -3,28 +3,43 @@ import numpy as np
 import wave
 import sys
 
-raw_content = wave.open("/content/drive/MyDrive/Recording_5.wav", "r")
+def count_claps(signal, min_threshold, max_threshold):
 
-# Extract Raw Audio from Wav File
-signal = raw_content.readframes(-1)
+    result = []
 
-# convert signal to numpy array
-signal = np.fromstring(signal, "Int16")
+    for i in signal:
+        if min_threshold < i > max_threshold:
+            result.append(round(signal.index(i), -4))
+ 
+    final_result = len(set(result))
 
-# plt.figure(1)
-# plt.title("clap waves")
-# plt.plot(signal)
-# plt.show()
+    return final_result
+    
 
-# code
-test_list = list(signal)
+def main():
 
-local_maxima = []
-local_minima = []
+    raw_content = wave.open("clap_sound.wav", "r")
 
-for index in range(len(test_list)+2):
-    if test_list[index - 1] > test_list[index] < test_list[index + 1]:
-        local_minima.append(i)
-        print(local_minima)
-    elif test_list[index - 1] < test_list[index] > test_list[index + 1]:
-        local_maxima.append(i)
+    # Extract Raw Audio from Wav File
+    signal = raw_content.readframes(-1)
+
+    # convert signal to numpy array
+    signal = np.fromstring(signal, "Int16")
+
+    # visualize signal
+    # plt.figure(1)
+    # plt.title("clap waves")
+    # plt.plot(signal)
+    # plt.show()
+    
+    # code
+    signal = list(signal)
+
+    res = count_claps(signal, 0, 1000)
+    print("No. of claps = ",res)
+
+    return 
+
+if __name__ == "__main__":
+    main()
+
